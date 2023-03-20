@@ -24,18 +24,92 @@ public class ElectricPokemon extends Pokemon {
         this.attacks = attacks;
     }
 
+
+
     void thunderPunch(Pokemon name, Pokemon enemy){
-        System.out.println("thunderPunch: standaard naam: " + name.getName() + "enemy name: " + enemy.getName());
+        System.out.println(name.getName() + " attacks " + enemy.getName() + " with thunderPunch");
+        switch (enemy.getType()) {
+            case "water":
+                System.out.println(enemy.getName() + " loses 15 hp.");
+                enemy.setHp(enemy.getHp() - 15);
+                break;
+            case "grass":
+                System.out.println(enemy.getName() + " loses 10 hp.");
+                enemy.setHp(enemy.getHp() - 10);
+                break;
+            case "fire":
+                System.out.println(enemy.getName() + " loses 5 hp.");
+                enemy.setHp(enemy.getHp() - 5);
+                break;
+            default:
+                System.out.println(enemy.getName() + " loses 3 hp. ");
+                enemy.setHp(enemy.getHp() - 3);
+        }
+        System.out.println(enemy.getName() + " now has " + enemy.getHp() + " hp.");
     }
 
     void electroBall(Pokemon name, Pokemon enemy){
-        System.out.println("electroBall: standaard naam: " + name.getName() + "enemy name: " + enemy.getName());
+        System.out.println(name.getName() + " attacks " + enemy.getName() + " with electroBall");
+        switch (enemy.getType()) {
+            case "water":
+                System.out.println(enemy.getName() + " loses 20 hp.");
+                enemy.setHp(enemy.getHp() - 20);
+                break;
+            case "grass":
+                System.out.println(enemy.getName() + " loses 15 hp.");
+                enemy.setHp(enemy.getHp() - 15);
+                break;
+            case "fire":
+                System.out.println(enemy.getName() + " loses 10 hp.");
+                enemy.setHp(enemy.getHp() - 10);
+                break;
+            default:
+                System.out.println(enemy.getName() + " loses 5 hp. ");
+                enemy.setHp(enemy.getHp() - 5);
+        }
+        System.out.println(enemy.getName() + " now has " + enemy.getHp() + " hp.");
     }
     void thunder(Pokemon name, Pokemon enemy){
-        System.out.println("thunder: standaard naam: " + name.getName() + "enemy name: " + enemy.getName());
+        System.out.println(name.getName() + " attacks " + enemy.getName() + " with thunder");
+        switch (enemy.getType()) {
+            case "water":
+                System.out.println(enemy.getName() + " loses 20 hp.");
+                enemy.setHp(enemy.getHp() - 20);
+                break;
+            case "grass":
+                System.out.println(enemy.getName() + " loses 15 hp.");
+                enemy.setHp(enemy.getHp() - 15);
+                break;
+            case "fire":
+                System.out.println(enemy.getName() + " loses 10 hp.");
+                enemy.setHp(enemy.getHp() - 10);
+                break;
+            default:
+                System.out.println(enemy.getName() + " gets a hp boost of 10");
+                enemy.setHp(enemy.getHp() + 10);
+        }
+        System.out.println(enemy.getName() + " now has " + enemy.getHp() + " hp.");
     }
 
     void voltTackle(Pokemon name, Pokemon enemy){
-        System.out.println("voltTackle: standaard naam: " + name.getName() + "enemy name: " + enemy.getName());
+        System.out.println(name.getName() + " attacks " + enemy.getName() + " with voltTackle.");
+        switch (enemy.getType()) {
+            case "water":
+                System.out.println(enemy.getName() + " loses 10 hp.");
+                enemy.setHp(enemy.getHp() - 10);
+                break;
+            case "grass":
+                System.out.println(enemy.getName() + " loses 8 hp.");
+                enemy.setHp(enemy.getHp() - 8);
+                break;
+            case "fire":
+                System.out.println(enemy.getName() + " loses 4 hp.");
+                enemy.setHp(enemy.getHp() - 4);
+                break;
+            default:
+                System.out.println(enemy.getName() + " loses 1 hp. ");
+                enemy.setHp(enemy.getHp() - 1);
+        }
+        System.out.println(enemy.getName() + " now has " + enemy.getHp() + " hp.");
     }
 }

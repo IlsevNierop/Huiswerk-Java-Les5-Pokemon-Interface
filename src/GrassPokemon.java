@@ -24,106 +24,96 @@ public class GrassPokemon extends Pokemon {
 
     public void leafStorm(Pokemon name, Pokemon enemy) {
         System.out.println(name.getName() + " attacks " + enemy.getName() + " with leafStorm");
-        switch (name.getType()) {
+        switch (enemy.getType()) {
+            case "electric":
+                System.out.println(enemy.getName() + " loses 15 hp. ");
+                enemy.setHp(enemy.getHp() - 15);
+                break;
             case "fire":
-                switch (enemy.getType()) {
-                    case "grass":
-                        System.out.println(enemy.getName() + " loses 15 hp.");
-                        enemy.setHp(enemy.getHp() - 15);
-                        break;
-                    case "water":
-                        System.out.println(enemy.getName() + " loses 10 hp.");
-                        enemy.setHp(enemy.getHp() - 10);
-                        break;
-                    case "electric":  System.out.println(enemy.getName() + " loses 5 hp. ");
-                        enemy.setHp(enemy.getHp() - 5);
-                        break;
-
-                    case "fire":
-                        System.out.println(enemy.getName() + " loses 3 hp.");
-                        enemy.setHp(enemy.getHp() - 3);
-                        break;
-                    default:
-                        System.out.println("Something is wrong on the level of the enemy switch, please contact your administrator");
-                }
-                case "grass":
-                switch (enemy.getType()) {
-                    case "electric":  System.out.println(enemy.getName() + " loses 15 hp. ");
-                        enemy.setHp(enemy.getHp() - 15);
-                        break;
-                    case "fire":
-                        System.out.println(enemy.getName() + " loses 10 hp.");
-                        enemy.setHp(enemy.getHp() - 10);
-                        break;
-                    case "water":
-                        System.out.println(enemy.getName() + " loses 5 hp.");
-                        enemy.setHp(enemy.getHp() - 5);
-                        break;
-                    case "grass":
-                        System.out.println(enemy.getName() + " loses 3 hp.");
-                        enemy.setHp(enemy.getHp() - 3);
-                        break;
-
-                    default:
-                        System.out.println("Something is wrong on the level of the enemy switch, please contact your administrator");
-                }
-                case "electric":
-                switch (enemy.getType()) {
-                    case "water":
-                        System.out.println(enemy.getName() + " loses 15 hp.");
-                        enemy.setHp(enemy.getHp() - 15);
-                        break;
-                    case "grass":
-                        System.out.println(enemy.getName() + " loses 10 hp.");
-                        enemy.setHp(enemy.getHp() - 10);
-                        break;
-                    case "fire":
-                        System.out.println(enemy.getName() + " loses 5 hp.");
-                        enemy.setHp(enemy.getHp() - 5);
-                        break;
-                    case "electric":
-                        System.out.println(enemy.getName() + " loses 3 hp. ");
-                        enemy.setHp(enemy.getHp() - 3);
-                        break;
-                    default:
-                        System.out.println("Something is wrong on the level of the enemy switch, please contact your administrator");
-                }
-                case "water":
-                switch (enemy.getType()) {
-                    case "fire":
-                        System.out.println(enemy.getName() + " loses 15 hp.");
-                        enemy.setHp(enemy.getHp() - 15);
-                        break;
-                    case "electric":  System.out.println(enemy.getName() + " loses 10 hp. ");
-                        enemy.setHp(enemy.getHp() - 10);
-                        break;
-                    case "grass":
-                        System.out.println(enemy.getName() + " loses 5 hp.");
-                        enemy.setHp(enemy.getHp() - 5);
-                        break;
-                    case "water":
-                        System.out.println(enemy.getName() + " loses 3 hp.");
-                        enemy.setHp(enemy.getHp() - 3);
-                        break;
-                    default:
-                        System.out.println("Something is wrong on the level of the enemy switch, please contact your administrator");
-                }
+                System.out.println(enemy.getName() + " loses 10 hp.");
+                enemy.setHp(enemy.getHp() - 10);
+                break;
+            case "water":
+                System.out.println(enemy.getName() + " loses 5 hp.");
+                enemy.setHp(enemy.getHp() - 5);
+                break;
             default:
-                System.out.println("Something is wrong on the level of the attacker switch, please contact your administrator");
+                System.out.println(enemy.getName() + " loses 3 hp.");
+                enemy.setHp(enemy.getHp() - 3);
         }
         System.out.println(enemy.getName() + " now has " + enemy.getHp() + " hp.");
     }
 
     public void solarBeam(Pokemon name, Pokemon enemy) {
-        System.out.println("solarBeam: standaard naam: " + name.getName() + "enemy name: " + enemy.getName());
+        System.out.println(name.getName() + " attacks " + enemy.getName() + " with solarBeam");
+        switch (enemy.getType()) {
+            case "electric":
+                System.out.println(enemy.getName() + " loses 20 hp. ");
+                enemy.setHp(enemy.getHp() - 20);
+                break;
+            case "fire":
+                System.out.println(enemy.getName() + " loses 15 hp.");
+                enemy.setHp(enemy.getHp() - 15);
+                break;
+            case "water":
+                System.out.println(enemy.getName() + " loses 10 hp.");
+                enemy.setHp(enemy.getHp() - 10);
+                break;
+            default:
+                System.out.println(enemy.getName() + " loses 8 hp.");
+                enemy.setHp(enemy.getHp() - 8);
+        }
+        System.out.println(enemy.getName() + " now has " + enemy.getHp() + " hp.");
     }
 
     public void leechSeed(Pokemon name, Pokemon enemy) {
-        System.out.println("leechSeed: standaard naam: " + name.getName() + "enemy name: " + enemy.getName());
+        System.out.println(name.getName() + " attacks " + enemy.getName() + " with leechSeed");
+        switch (enemy.getType()) {
+            case "electric":
+                System.out.println(name.getName() + " gets 12 hp from " + enemy.getName());
+                enemy.setHp(enemy.getHp() - 12);
+                name.setHp(name.getHp() + 12);
+
+                break;
+            case "fire":
+                System.out.println(name.getName() + " gets 9 hp from " + enemy.getName());
+                enemy.setHp(enemy.getHp() - 9);
+                name.setHp(name.getHp() + 9);
+                break;
+            case "water":
+                System.out.println(name.getName() + " gets 6 hp from " + enemy.getName());
+                enemy.setHp(enemy.getHp() - 6);
+                name.setHp(name.getHp() + 6);
+                break;
+            default:
+                System.out.println(name.getName() + " gets 3 hp from " + enemy.getName());
+                enemy.setHp(enemy.getHp() - 3);
+                name.setHp(name.getHp() + 3);
+        }
+        System.out.println(enemy.getName() + " now has " + enemy.getHp() + " hp.");
+        System.out.println(name.getName() + " now has " + name.getHp() + " hp.") ;
     }
 
     public void leaveBlade(Pokemon name, Pokemon enemy) {
-        System.out.println("leaveBlade: standaard naam: " + name.getName() + "enemy name: " + enemy.getName());
+        System.out.println(name.getName() + " attacks " + enemy.getName() + " with leaveBlade");
+        switch (enemy.getType()) {
+            case "electric":
+                System.out.println(enemy.getName() + " loses 10 hp. ");
+                enemy.setHp(enemy.getHp() - 10);
+                break;
+            case "fire":
+                System.out.println(enemy.getName() + " loses 8 hp.");
+                enemy.setHp(enemy.getHp() - 8);
+                break;
+            case "water":
+                System.out.println(enemy.getName() + " loses 5 hp.");
+                enemy.setHp(enemy.getHp() - 5);
+                break;
+            default:
+                System.out.println(enemy.getName() + " loses 2 hp.");
+                enemy.setHp(enemy.getHp() - 2);
+        }
+        System.out.println(enemy.getName() + " now has " + enemy.getHp() + " hp.");
     }
 
     @Override
