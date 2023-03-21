@@ -15,7 +15,7 @@ public interface PokemonGym {
 
     Pokemon choosePokemon(PokemonTrainer trainer);
 
-    int randomAttackByGymOwner();
+    int randomAttackByGymOwner(Pokemon pokemon);
 
     String chooseAttackPlayer(Pokemon p);
 
@@ -27,6 +27,8 @@ public interface PokemonGym {
 
     int randomFoodForAttack(List<Pokemon> pokemons);
     List<String> createListFoods(List<Pokemon> pokemons);
+
+    void eatFood(Pokemon p);
 
 
 
