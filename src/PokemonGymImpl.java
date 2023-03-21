@@ -91,10 +91,23 @@ public class PokemonGymImpl implements PokemonGym {
         } else if (gymPokemon.getHp() <= 0) {
             System.out.println(pokemon.getName() + " has defeated " + gymPokemon.getName() + ".\n" + owner.getName() + " will have to fight with another pokemon to continue.");
         }
-        if (trainer.getPokemons().size() == 0) {
-            System.out.println("All your pokemons are dead, you need to leave the premises now! Toodelooooo!");
-        } else if (owner.getPokemons().size() == 0) {
-            System.out.println("All the pokemons of " + owner.getName() + " are dead. You won. You can pickup your trophee at the desk. " + owner.getName() + " will drink away his sorrows in the bar. You can join and buy him a pint.");
+        // pokemon met <0 hp is nog niet verwijderd van lijst - hier eerst lijst weer maken en dan checken
+        List<Pokemon> gymOwnerPokemons = new ArrayList<>();
+        for (Pokemon p : owner.getPokemons()) {
+            if (p.getHp() > 0) {
+                gymOwnerPokemons.add(p);
+            }
+        }
+        List<Pokemon> trainerPokemons = new ArrayList<>();
+        for (Pokemon p : trainer.getPokemons()) {
+            if (p.getHp() > 0) {
+                trainerPokemons.add(p);
+            }
+        }
+        if (trainerPokemons.size() == 0) {
+            System.out.println("But.... all your pokemons are dead, you need to leave the premises now! Toodelooooo!");
+        } else if (gymOwnerPokemons.size() == 0) {
+            System.out.println("But... all the pokemons of " + owner.getName() + " are dead. \nYou won. You can pickup your trophee at the desk. \n" + owner.getName() + " will drink away his sorrows in the bar. \nYou can join and buy him a pint.");
         } else {
             System.out.println("Would you like to keep playing? Type yes or no.");
             String keepPlaying = speler_A.nextLine();

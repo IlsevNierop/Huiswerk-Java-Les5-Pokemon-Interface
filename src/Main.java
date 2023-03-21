@@ -11,7 +11,7 @@ public class Main {
     public static final String ANSI_GREEN = "\u001B[32m";
 
     // Dit zijn de Pokemons die je tot je beschikking hebt
-    private static final FirePokemon charizard = new FirePokemon("Charrizard", 76, 2, "firenougats", "GRRRRRRRRRRRRRRR");
+    private static final FirePokemon charizard = new FirePokemon("Charrizard", 76, 30, "firenougats", "GRRRRRRRRRRRRRRR");
     private static final WaterPokemon blastoise = new WaterPokemon("Blastoise", 40, 2, "Pokeflakes", "Blaaaaasssssstooooiiiiissss");
     private static final GrassPokemon venusaur = new GrassPokemon("Venusaur", 50, 2, "Pokeleafs", "Veeeeeeeeennnnnuuuuuusaur");
     private static final GrassPokemon ditto = new GrassPokemon("Ditto", 60, 2, "Everything", "Dittto diiiito ");
@@ -25,8 +25,10 @@ public class Main {
     private static final ElectricPokemon pikachu = new ElectricPokemon("Pikachu", 75, 2, "Electrons", "PIKIPIKIPIKI!!!!");
     private static final WaterPokemon squirtle = new WaterPokemon("Squirtle", 88, 2, "Algae", "SQRRRRRRRRHAHHA");
 
-    private static List<Pokemon> gymOwnerPokemons = Arrays.asList(charmeleon, wartortle, bulbasaur, ivysaur, pikachu, squirtle);
-    private static List<Pokemon> trainerPokemons = Arrays.asList(charizard, blastoise, venusaur, ditto, raichu, gyarados);
+    private static List<Pokemon> gymOwnerPokemons = Arrays.asList(charmeleon);
+//    private static List<Pokemon> gymOwnerPokemons = Arrays.asList(charmeleon, wartortle, bulbasaur, ivysaur, pikachu, squirtle);
+    private static List<Pokemon> trainerPokemons = Arrays.asList(charizard);
+//    private static List<Pokemon> trainerPokemons = Arrays.asList(charizard, blastoise, venusaur, ditto, raichu, gyarados);
     private static List<Pokemon> allPokemons = Arrays.asList(charizard, blastoise, venusaur, ditto, raichu, gyarados, charmeleon, wartortle, bulbasaur, ivysaur, pikachu, squirtle);
 
 
