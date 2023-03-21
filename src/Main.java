@@ -16,14 +16,14 @@ public class Main {
     private static final GrassPokemon venusaur = new GrassPokemon("Venusaur", 50, 2, "Pokeleafs", "Veeeeeeeeennnnnuuuuuusaur");
     private static final GrassPokemon ditto = new GrassPokemon("Ditto", 60, 2, "Everything", "Dittto diiiito ");
     private static final ElectricPokemon raichu = new ElectricPokemon("Raichu", 80, 2, "Pokebrocks", "Raaaaiiiiicccchhhhuuuuuuu!!!!");
-    private static final WaterPokemon gyarados = new WaterPokemon("Gyarados", 85, 2, "Pokeflakes", "Gyaaaaaaaaarrrraaaadoooos");
+    private static final WaterPokemon gyarados = new WaterPokemon("Gyarados", 85, 2, "Plankton", "Gyaaaaaaaaarrrraaaadoooos");
 
-    private static final FirePokemon charmeleon = new FirePokemon("Charmeleon", 93, 2, "firenougats", "HMMMMMMMMMMM");
-    private static final WaterPokemon wartortle = new WaterPokemon("Wartortle", 25, 2, "Pokeflakes", "WAWAWAWAWAWAWAW");
-    private static final GrassPokemon bulbasaur = new GrassPokemon("Bulbasaur", 99, 2, "Pokeleafs", "BLUUUBLULLLULU");
-    private static final GrassPokemon ivysaur = new GrassPokemon("Ivysaur", 55, 2, "Everything", "IIIEEEEHHHHHH ");
-    private static final ElectricPokemon pikachu = new ElectricPokemon("Pikachu", 75, 2, "Pokebrocks", "PIKIPIKIPIKI!!!!");
-    private static final WaterPokemon squirtle = new WaterPokemon("Squirtle", 88, 2, "Pokeflakes", "SQRRRRRRRRHAHHA");
+    private static final FirePokemon charmeleon = new FirePokemon("Charmeleon", 93, 2, "Charcoal", "HMMMMMMMMMMM");
+    private static final WaterPokemon wartortle = new WaterPokemon("Wartortle", 25, 2, "Fish", "WAWAWAWAWAWAWAW");
+    private static final GrassPokemon bulbasaur = new GrassPokemon("Bulbasaur", 99, 2, "Daisies", "BLUUUBLULLLULU");
+    private static final GrassPokemon ivysaur = new GrassPokemon("Ivysaur", 55, 2, "Weed", "IIIEEEEHHHHHH ");
+    private static final ElectricPokemon pikachu = new ElectricPokemon("Pikachu", 75, 2, "Electrons", "PIKIPIKIPIKI!!!!");
+    private static final WaterPokemon squirtle = new WaterPokemon("Squirtle", 88, 2, "Algae", "SQRRRRRRRRHAHHA");
 
     private static List<Pokemon> gymOwnerPokemons = Arrays.asList(charmeleon, wartortle, bulbasaur, ivysaur, pikachu, squirtle);
     private static List<Pokemon> trainerPokemons = Arrays.asList(charizard, blastoise, venusaur, ditto, raichu, gyarados);

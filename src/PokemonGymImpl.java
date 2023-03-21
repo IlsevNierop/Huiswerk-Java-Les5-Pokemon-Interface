@@ -91,12 +91,18 @@ public class PokemonGymImpl implements PokemonGym {
         } else if (gymPokemon.getHp() <= 0) {
             System.out.println(pokemon.getName() + " has defeated " + gymPokemon.getName() + ".\n" + owner.getName() + " will have to fight with another pokemon to continue.");
         }
-        System.out.println("Would you like to keep playing? Type yes or no.");
-        String keepPlaying = speler_A.nextLine();
-        if (keepPlaying.equals("yes")) {
-            enteredTheGymNextRounds(trainer);
+        if (trainer.getPokemons().size() == 0) {
+            System.out.println("All your pokemons are dead, you need to leave the premises now! Toodelooooo!");
+        } else if (owner.getPokemons().size() == 0) {
+            System.out.println("All the pokemons of " + owner.getName() + " are dead. You won. You can pickup your trophee at the desk. " + owner.getName() + " will drink away his sorrows in the bar. You can join and buy him a pint.");
         } else {
-            System.out.println("Thank you for playing");
+            System.out.println("Would you like to keep playing? Type yes or no.");
+            String keepPlaying = speler_A.nextLine();
+            if (keepPlaying.equals("yes")) {
+                enteredTheGymNextRounds(trainer);
+            } else {
+                System.out.println("Thank you for playing");
+            }
         }
     }
 
@@ -129,7 +135,27 @@ public class PokemonGymImpl implements PokemonGym {
             System.out.println(p.getName());
         }
         String pokemon = speler_A.nextLine();
+        boolean correctPokemonChosen = false;
+        while (!correctPokemonChosen) {
+            int i = 0;
+            for (Pokemon p : pokemons) {
+                if (!p.getName().equalsIgnoreCase(pokemon)) {
+                    i++;
+                }
+            }
+            if (i == pokemons.size()) {
+                System.out.println("Either this pokemon doesn't exist, or this pokemon died. \nPlease choose another pokemon.");
+                pokemon = speler_A.nextLine();
+                continue;
+            } else {
+                correctPokemonChosen = true;
+                break;
+            }
+
+        }
+
         return selectPokemon(pokemon, trainer);
+
     }
 
     @Override
