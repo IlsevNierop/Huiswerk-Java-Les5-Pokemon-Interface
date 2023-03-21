@@ -11,7 +11,7 @@ public abstract class Pokemon {
 
     private String type;
 
-    private List<String> attacks = Arrays.asList();
+    private final List<String> attacks = Arrays.asList();
 
 
     public Pokemon(String name, int level, int hp, String food, String sound) {
@@ -21,6 +21,20 @@ public abstract class Pokemon {
         this.food = food;
         this.sound = sound;
     }
+
+    void throwFood(Pokemon name, Pokemon enemy, String randomFood) {
+       if (enemy.getFood().equals(randomFood)){
+            enemy.setHp(enemy.getHp() + 15);
+            System.out.println(name.getName() + " throws " + randomFood + " at " + enemy.getName() + ". \nThis is the kind of food that " + enemy.getName() + " loves! \nHis hp is boosted with 10 points.");
+        }
+        else {
+            enemy.setHp(enemy.getHp() - 5);
+            System.out.println(name.getName() + " throws " + randomFood + " at " + enemy.getName() + ". \nOuch that hurt, and " + enemy.getName() + " hates this food! \nHe lost 5 hp");
+        }
+        System.out.println(enemy.getName() + " now has " + enemy.getHp() + " hp.");
+
+    }
+
 
 
     public String getName() {
@@ -53,10 +67,6 @@ public abstract class Pokemon {
 
     public List<String> getAttacks() {
         return attacks;
-    }
-
-    public void setAttacks(List<String> attacks) {
-        this.attacks = attacks;
     }
 
     public String getType() {

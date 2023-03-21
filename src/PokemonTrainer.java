@@ -4,7 +4,7 @@ public class PokemonTrainer {
 
    private  String name;
 
-    List<Pokemon> pokemons;
+    private List<Pokemon> pokemons;
 
 
     public PokemonTrainer( String name, List<Pokemon> pokemons) {

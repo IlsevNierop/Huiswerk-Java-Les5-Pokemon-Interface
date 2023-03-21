@@ -3,8 +3,8 @@ import java.util.List;
 
 public class WaterPokemon extends Pokemon {
 
-    private String type = "water";
-    private List<String> attacks = Arrays.asList("surf", "hydroPump", "hydroCanon", "rainDance");
+    private final String type = "water";
+    private List<String> attacks = Arrays.asList("surf", "hydroPump", "hydroCanon", "rainDance", "throwFood");
     public WaterPokemon(String name, int level, int hp, String food, String sound) {
         super(name, level, hp, food, sound);
     }
@@ -18,13 +18,6 @@ public class WaterPokemon extends Pokemon {
     public List<String> getAttacks() {
         return attacks;
     }
-
-    @Override
-    public void setAttacks(List<String> attacks) {
-        this.attacks = attacks;
-    }
-
-
 
 
     void surf(Pokemon name, Pokemon enemy){

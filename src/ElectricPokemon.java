@@ -3,9 +3,9 @@ import java.util.List;
 
 public class ElectricPokemon extends Pokemon {
 
-    private String type = "electric";
+    private final String type = "electric";
 
-    private List<String> attacks = Arrays.asList("thunderPunch", "electroBall", "thunder", "voltTackle");
+    private List<String> attacks = Arrays.asList("thunderPunch", "electroBall", "thunder", "voltTackle", "throwFood");
     public ElectricPokemon(String name, int level, int hp, String food, String sound) {
         super(name, level, hp, food, sound);
     }
@@ -18,12 +18,6 @@ public class ElectricPokemon extends Pokemon {
     public List<String> getAttacks() {
         return attacks;
     }
-
-    @Override
-    public void setAttacks(List<String> attacks) {
-        this.attacks = attacks;
-    }
-
 
 
     void thunderPunch(Pokemon name, Pokemon enemy){

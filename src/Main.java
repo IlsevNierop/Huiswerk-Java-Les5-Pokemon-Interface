@@ -26,6 +26,7 @@ public class Main {
     public static void main(String[] args) {
         Scanner speler_A = new Scanner(System.in);
         PokemonGymImpl pokemonGym = new PokemonGymImpl(pokemons);
+//        venusaur.throwFood(venusaur, gyarados, pokemonGym, pokemons);
         System.out.println("First player please enter your name: ");
         String userA = speler_A.nextLine();
         PokemonTrainer player1 = new PokemonTrainer(userA, pokemons);

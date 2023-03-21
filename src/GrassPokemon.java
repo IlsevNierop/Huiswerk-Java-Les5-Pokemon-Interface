@@ -3,24 +3,20 @@ import java.util.List;
 
 public class GrassPokemon extends Pokemon {
 
-    private String type = "grass";
+    private final String type = "grass";
 
-    private List<String> attacks = Arrays.asList("leafStorm", "solarBeam", "leechSeed", "leaveBlade");
+    private List<String> attacks = Arrays.asList("leafStorm", "solarBeam", "leechSeed", "leaveBlade", "throwFood");
 
     public GrassPokemon(String name, int level, int hp, String food, String sound) {
         super(name, level, hp, food, sound);
     }
 
+
+
     @Override
     public List<String> getAttacks() {
         return attacks;
     }
-
-    @Override
-    public void setAttacks(List<String> attacks) {
-        this.attacks = attacks;
-    }
-
 
     public void leafStorm(Pokemon name, Pokemon enemy) {
         System.out.println(name.getName() + " attacks " + enemy.getName() + " with leafStorm");

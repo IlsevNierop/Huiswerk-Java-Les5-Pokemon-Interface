@@ -1,4 +1,5 @@
 import java.util.List;
+import java.util.Random;
 
 public interface PokemonGym {
 
@@ -23,6 +24,13 @@ public interface PokemonGym {
     void gymOwnerAttacks(Pokemon gymPokemon, Pokemon pokemon);
 
     void attackOrChange(Pokemon pokemon, Pokemon gymPokemon, PokemonTrainer trainer, PokemonGymOwner gym);
+
+    int randomFoodForAttack(List<Pokemon> pokemons);
+    List<String> createListFoods(List<Pokemon> pokemons);
+
+
+
+
 
 
 

@@ -3,14 +3,14 @@ import java.util.List;
 
 public class FirePokemon extends Pokemon {
 
-    private String type = "fire";
+    private final String type = "fire";
 
     @Override
     public String getType() {
         return type;
     }
 
-    private List<String> attacks = Arrays.asList("inferno", "pyroBall", "fireLash", "flameThrower");
+    private List<String> attacks = Arrays.asList("inferno", "pyroBall", "fireLash", "flameThrower", "throwFood");
 
     public FirePokemon(String name, int level, int hp, String food, String sound) {
         super(name, level, hp, food, sound);
@@ -19,11 +19,6 @@ public class FirePokemon extends Pokemon {
     @Override
     public List<String> getAttacks() {
         return attacks;
-    }
-
-    @Override
-    public void setAttacks(List<String> attacks) {
-        this.attacks = attacks;
     }
 
     void pyroBall(Pokemon name, Pokemon enemy) {
