@@ -3,7 +3,9 @@ import java.util.Random;
 
 public interface PokemonGym {
 
-    void enteredTheGym(PokemonTrainer trainer);
+    void enteredTheGymFirstRound(PokemonTrainer trainer);
+
+    void enteredTheGymNextRounds(PokemonTrainer player1);
 
     void printPokemon(List<Pokemon> pokemons);
 
@@ -29,6 +31,8 @@ public interface PokemonGym {
     List<String> createListFoods(List<Pokemon> pokemons);
 
     void eatFood(Pokemon p);
+
+//    List<Pokemon> pokemonDied(Pokemon p, List<Pokemon> pokemons);
 
 
 

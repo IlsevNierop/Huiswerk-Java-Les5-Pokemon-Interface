@@ -4,15 +4,20 @@ import java.util.*;
 public class PokemonGymImpl implements PokemonGym {
 
 
-    List<Pokemon> pokemons;
+    List<Pokemon> gymOwnerPokemons;
 
-    public PokemonGymImpl(List<Pokemon> pokemons) {
-        this.pokemons = pokemons;
+    List<Pokemon> trainerPokemons;
+    List<Pokemon> allPokemons;
+
+    public PokemonGymImpl(List<Pokemon> gymOwnerPokemons, List<Pokemon> trainerPokemons, List<Pokemon> allPokemons) {
+        this.gymOwnerPokemons = gymOwnerPokemons;
+        this.trainerPokemons = trainerPokemons;
+        this.allPokemons = allPokemons;
     }
 
     @Override
-    public void enteredTheGym(PokemonTrainer player1) {
-        PokemonGymOwner gymOwner = new PokemonGymOwner("Brock", "Pewter City", pokemons);
+    public void enteredTheGymFirstRound(PokemonTrainer player1) {
+        PokemonGymOwner gymOwner = new PokemonGymOwner("Brock", "Pewter City", gymOwnerPokemons);
         System.out.println("You have entered the " + gymOwner.getTown() + " gym");
         System.out.println("In front of you stands a pokemontrainer");
         System.out.println(Main.ANSI_RED + gymOwner.getName() + Main.ANSI_RESET + ": Hello stranger, I'm " + gymOwner.getName() + ", the owner of this gym. Who are you?");
@@ -29,6 +34,20 @@ public class PokemonGymImpl implements PokemonGym {
     }
 
     @Override
+    public void enteredTheGymNextRounds(PokemonTrainer player1) {
+        PokemonGymOwner gymOwner = new PokemonGymOwner("Brock", "Pewter City", gymOwnerPokemons);
+        System.out.println(Main.ANSI_RED + gymOwner.getName() + Main.ANSI_RESET + ": So you want to fight again??!! Let's go and see who wins this time!");
+        Pokemon gymPokemon = chooseGymPokemon(gymOwner);
+        System.out.println(Main.ANSI_RED + gymOwner.getName() + Main.ANSI_RESET + ": I'll choose you, " + gymPokemon.getName());
+        Pokemon pokemon = choosePokemon(player1);
+        System.out.println(Main.ANSI_GREEN + player1.getName() + Main.ANSI_RESET + ": I'll choose you, " + pokemon.getName());
+
+        fightRound(player1, gymOwner, pokemon, gymPokemon);
+
+    }
+
+
+    @Override
     public void printPokemon(List<Pokemon> pokemons) {
         for (Pokemon p : pokemons) {
             System.out.println(p.getName());
@@ -37,37 +56,45 @@ public class PokemonGymImpl implements PokemonGym {
 
     @Override
     public Pokemon selectPokemon(String pokemon, PokemonTrainer trainer) {
-        List<Pokemon> pokemons = trainer.getPokemons();
+        List<Pokemon> trainerPokemons1 = trainer.getPokemons();
         int number = 0;
-        for (int i = 0; i < pokemons.size(); i++) {
-            if (pokemons.get(i).getName().equalsIgnoreCase(pokemon)) {
+        for (int i = 0; i < trainerPokemons1.size(); i++) {
+            if (trainerPokemons1.get(i).getName().equalsIgnoreCase(pokemon)) {
                 number = i;
             }
         }
-        return pokemons.get(number);
+        return trainerPokemons1.get(number);
     }
 
     @Override
     public void fightRound(PokemonTrainer trainer, PokemonGymOwner owner, Pokemon pokemon, Pokemon gymPokemon) {
         Scanner speler_A = new Scanner(System.in);
-        while (pokemon.getHp() > 0 && gymPokemon.getHp() > 0) {
-
-            System.out.println("Its " + owner.getName() + "'s turn to attack");
-            gymOwnerAttacks(gymPokemon, pokemon);
-            System.out.println("Its " + trainer.getName() + "'s turn to attack");
-            attackOrChange(pokemon, gymPokemon, trainer, owner);
-
+        boolean continueFighting = true;
+        while (continueFighting) {
+            if (pokemon.getHp() <= 0 || gymPokemon.getHp() <= 0) {
+                continueFighting = false;
+                break;
+            } else {
+                System.out.println("Its " + owner.getName() + "'s turn to attack");
+                gymOwnerAttacks(gymPokemon, pokemon);
+                if (pokemon.getHp() <= 0 || gymPokemon.getHp() <= 0) {
+                    continueFighting = false;
+                    break;
+                } else {
+                    System.out.println("Its " + trainer.getName() + "'s turn to attack");
+                    attackOrChange(pokemon, gymPokemon, trainer, owner);
+                }
+            }
         }
         if (pokemon.getHp() <= 0) {
-            System.out.println(gymPokemon.getName() + " has defeated " + pokemon.getName());
+            System.out.println(gymPokemon.getName() + " has defeated " + pokemon.getName() + ". \nYou will have to fight with another pokemon to continue.");
         } else if (gymPokemon.getHp() <= 0) {
-            System.out.println(pokemon.getName() + " has defeated " + gymPokemon.getName());
+            System.out.println(pokemon.getName() + " has defeated " + gymPokemon.getName() + ".\n" + owner.getName() + " will have to fight with another pokemon to continue.");
         }
-
-        System.out.println("Would you like to keep playing? yes or no");
+        System.out.println("Would you like to keep playing? Type yes or no.");
         String keepPlaying = speler_A.nextLine();
         if (keepPlaying.equals("yes")) {
-            enteredTheGym(trainer);
+            enteredTheGymNextRounds(trainer);
         } else {
             System.out.println("Thank you for playing");
         }
@@ -76,15 +103,16 @@ public class PokemonGymImpl implements PokemonGym {
     @Override
     public Pokemon chooseGymPokemon(PokemonGymOwner gymOwner) {
         Random rand = new Random();
-        List<Pokemon> pokemons = new ArrayList<>();
+        List<Pokemon> gymOwnerPokemons = new ArrayList<>();
         for (Pokemon p : gymOwner.getPokemons()) {
             if (p.getHp() > 0) {
-                pokemons.add(p);
+                gymOwnerPokemons.add(p);
             }
         }
-        int amountOfPokemons = pokemons.size();
+        int amountOfPokemons = gymOwnerPokemons.size();
         int randomNumber = rand.nextInt(amountOfPokemons);
-        return pokemons.get(randomNumber);
+        return gymOwnerPokemons.get(randomNumber);
+
     }
 
     @Override
@@ -162,7 +190,7 @@ public class PokemonGymImpl implements PokemonGym {
                     case "pyroball" -> fire.pyroBall(pokemon, gymPokemon);
                     case "firelash" -> fire.fireLash(pokemon, gymPokemon);
                     case "throwfood" ->
-                            fire.throwFood(pokemon, gymPokemon, createListFoods(pokemons).get(randomFoodForAttack(pokemons)));
+                            fire.throwFood(pokemon, gymPokemon, createListFoods(allPokemons).get(randomFoodForAttack(allPokemons)));
                     default -> fire.flameThrower(pokemon, gymPokemon);
                 }
             }
@@ -173,7 +201,7 @@ public class PokemonGymImpl implements PokemonGym {
                     case "hydropump" -> water.hydroPump(pokemon, gymPokemon);
                     case "hydrocanon" -> water.hydroCanon(pokemon, gymPokemon);
                     case "throwfood" ->
-                            water.throwFood(pokemon, gymPokemon, createListFoods(pokemons).get(randomFoodForAttack(pokemons)));
+                            water.throwFood(pokemon, gymPokemon, createListFoods(allPokemons).get(randomFoodForAttack(allPokemons)));
                     default -> water.rainDance(pokemon, gymPokemon);
                 }
             }
@@ -184,7 +212,7 @@ public class PokemonGymImpl implements PokemonGym {
                     case "solarbeam" -> grass.solarBeam(pokemon, gymPokemon);
                     case "leechseed" -> grass.leechSeed(pokemon, gymPokemon);
                     case "throwfood" ->
-                            grass.throwFood(pokemon, gymPokemon, createListFoods(pokemons).get(randomFoodForAttack(pokemons)));
+                            grass.throwFood(pokemon, gymPokemon, createListFoods(allPokemons).get(randomFoodForAttack(allPokemons)));
                     default -> grass.leaveBlade(pokemon, gymPokemon);
                 }
             }
@@ -195,7 +223,7 @@ public class PokemonGymImpl implements PokemonGym {
                     case "electroball" -> electric.electroBall(pokemon, gymPokemon);
                     case "thunder" -> electric.thunder(pokemon, gymPokemon);
                     case "throwfood" ->
-                            electric.throwFood(pokemon, gymPokemon, createListFoods(pokemons).get(randomFoodForAttack(pokemons)));
+                            electric.throwFood(pokemon, gymPokemon, createListFoods(allPokemons).get(randomFoodForAttack(allPokemons)));
                     default -> electric.voltTackle(pokemon, gymPokemon);
                 }
             }
@@ -212,8 +240,7 @@ public class PokemonGymImpl implements PokemonGym {
         int randomNumberForAttackOrEat = randomAttackByGymOwner(gymPokemon);
         if (randomNumberForAttackOrEat == 5) {
             eatFood(gymPokemon);
-        }
-        else{
+        } else {
 
             switch (gymPokemon.getType()) {
                 case "fire" -> {
@@ -223,7 +250,8 @@ public class PokemonGymImpl implements PokemonGym {
                         case "inferno" -> fire.inferno(gymPokemon, pokemon);
                         case "pyroBall" -> fire.pyroBall(gymPokemon, pokemon);
                         case "fireLash" -> fire.fireLash(gymPokemon, pokemon);
-                        case "throwfood" -> fire.throwFood(pokemon, gymPokemon, createListFoods(pokemons).get(randomFoodForAttack(pokemons)));
+                        case "throwfood" ->
+                                fire.throwFood(pokemon, gymPokemon, createListFoods(allPokemons).get(randomFoodForAttack(allPokemons)));
                         default -> fire.flameThrower(gymPokemon, pokemon);
                     }
                 }
@@ -234,7 +262,8 @@ public class PokemonGymImpl implements PokemonGym {
                         case "surf" -> water.surf(gymPokemon, pokemon);
                         case "hydroPump" -> water.hydroPump(gymPokemon, pokemon);
                         case "hydroCanon" -> water.hydroCanon(gymPokemon, pokemon);
-                        case "throwfood" -> water.throwFood(pokemon, gymPokemon, createListFoods(pokemons).get(randomFoodForAttack(pokemons)));
+                        case "throwfood" ->
+                                water.throwFood(pokemon, gymPokemon, createListFoods(allPokemons).get(randomFoodForAttack(allPokemons)));
                         default -> water.rainDance(gymPokemon, pokemon);
                     }
                 }
@@ -245,7 +274,8 @@ public class PokemonGymImpl implements PokemonGym {
                         case "leafStorm" -> grass.leafStorm(gymPokemon, pokemon);
                         case "solarBeam" -> grass.solarBeam(gymPokemon, pokemon);
                         case "leechSeed" -> grass.leechSeed(gymPokemon, pokemon);
-                        case "throwfood" -> grass.throwFood(pokemon, gymPokemon, createListFoods(pokemons).get(randomFoodForAttack(pokemons)));
+                        case "throwfood" ->
+                                grass.throwFood(pokemon, gymPokemon, createListFoods(allPokemons).get(randomFoodForAttack(allPokemons)));
                         default -> grass.leaveBlade(gymPokemon, pokemon);
                     }
                 }
@@ -256,7 +286,8 @@ public class PokemonGymImpl implements PokemonGym {
                         case "thunderPunch" -> electric.thunderPunch(gymPokemon, pokemon);
                         case "electroBall" -> electric.electroBall(gymPokemon, pokemon);
                         case "thunder" -> electric.thunder(gymPokemon, pokemon);
-                        case "throwfood" -> electric.throwFood(pokemon, gymPokemon, createListFoods(pokemons).get(randomFoodForAttack(pokemons)));
+                        case "throwfood" ->
+                                electric.throwFood(pokemon, gymPokemon, createListFoods(allPokemons).get(randomFoodForAttack(allPokemons)));
                         default -> electric.voltTackle(gymPokemon, pokemon);
                     }
                 }
@@ -287,9 +318,9 @@ public class PokemonGymImpl implements PokemonGym {
 
 
     @Override
-    public List<String> createListFoods(List<Pokemon> pokemons) {
+    public List<String> createListFoods(List<Pokemon> allPokemons) {
         List<String> foods = new ArrayList<>();
-        for (Pokemon a : pokemons) {
+        for (Pokemon a : allPokemons) {
             foods.add(a.getFood());
         }
 
@@ -297,9 +328,9 @@ public class PokemonGymImpl implements PokemonGym {
     }
 
     @Override
-    public int randomFoodForAttack(List<Pokemon> pokemons) {
+    public int randomFoodForAttack(List<Pokemon> allPokemons) {
         Random rand = new Random();
-        int maxFood = pokemons.size();
+        int maxFood = allPokemons.size();
         return rand.nextInt(maxFood);
     }
 
@@ -308,6 +339,13 @@ public class PokemonGymImpl implements PokemonGym {
         p.setHp(p.getHp() + 10);
         System.out.println(p.getName() + " is eating his favourite food: " + p.getFood() + " and gains new energy. \nHe gets a boost of 10 hp. \nHe now has " + p.getHp() + " hp.");
     }
+
+//    @Override
+//    public List<Pokemon> pokemonDied(Pokemon p, List<Pokemon> pokemons) {
+//        pokemons.remove(p);
+//
+//        return pokemons;
+//    }
 
 
 }

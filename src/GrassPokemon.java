@@ -69,7 +69,6 @@ public class GrassPokemon extends Pokemon {
                 System.out.println(name.getName() + " gets 12 hp from " + enemy.getName());
                 enemy.setHp(enemy.getHp() - 12);
                 name.setHp(name.getHp() + 12);
-
                 break;
             case "fire":
                 System.out.println(name.getName() + " gets 9 hp from " + enemy.getName());
