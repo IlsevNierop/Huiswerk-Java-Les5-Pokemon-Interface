@@ -5,7 +5,7 @@ public interface PokemonGym {
 
     void enteredTheGymFirstRound(PokemonTrainer trainer);
 
-    void enteredTheGymNextRounds(PokemonTrainer player1);
+    void enteredTheGymNextRounds(PokemonTrainer player1, PokemonGymOwner gymowner);
 
     void printPokemon(List<Pokemon> pokemons);
 
@@ -21,9 +21,9 @@ public interface PokemonGym {
 
     String chooseAttackPlayer(Pokemon p);
 
-    void performAttackPlayer(Pokemon pokemon, Pokemon gymPokemon, String attack);
+    void performAttackPlayer(Pokemon pokemon, Pokemon gymPokemon, String attack, List<Pokemon> allPokemons);
 
-    void gymOwnerAttacks(Pokemon gymPokemon, Pokemon pokemon);
+    void gymOwnerAttacks(Pokemon gymPokemon, Pokemon pokemon, List<Pokemon> allPokemons);
 
     void attackOrChange(Pokemon pokemon, Pokemon gymPokemon, PokemonTrainer trainer, PokemonGymOwner gym);
 
