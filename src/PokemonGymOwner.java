@@ -4,12 +4,13 @@ import java.util.List;
 public class PokemonGymOwner extends PokemonTrainer {
 
     private String town;
-    private static final FirePokemon charmeleon = new FirePokemon("Charmeleon", 93, 0, "Charcoal", "HMMMMMMMMMMM");
-    private static final WaterPokemon wartortle = new WaterPokemon("Wartortle", 25, 0, "Fish", "WAWAWAWAWAWAWAW");
-    private static final GrassPokemon bulbasaur = new GrassPokemon("Bulbasaur", 99, 0, "Daisies", "BLUUUBLULLLULU");
-    private static final GrassPokemon ivysaur = new GrassPokemon("Ivysaur", 55, 0, "Weed", "IIIEEEEHHHHHH ");
-    private static final ElectricPokemon pikachu = new ElectricPokemon("Pikachu", 75, 1, "Electrons", "PIKIPIKIPIKI!!!!");
-    private static final WaterPokemon squirtle = new WaterPokemon("Squirtle", 88, 1, "Algae", "SQRRRRRRRRHAHHA");
+    private static final FirePokemon charmeleon = new FirePokemon("Charmeleon", 93, 65, "Charcoal", "HMMMMMMMMMMM");
+    private static final WaterPokemon wartortle = new WaterPokemon("Wartortle", 25, 65, "Fish", "WAWAWAWAWAWAWAW");
+    private static final GrassPokemon bulbasaur = new GrassPokemon("Bulbasaur", 99, 30, "Daisies", "BLUUUBLULLLULU");
+    private static final GrassPokemon ivysaur = new GrassPokemon("Ivysaur", 55, 40, "Weed", "IIIEEEEHHHHHH ");
+    private static final ElectricPokemon pikachu = new ElectricPokemon("Pikachu", 75, 55, "Electrons", "PIKIPIKIPIKI!!!!");
+    private static final WaterPokemon squirtle = new WaterPokemon("Squirtle", 88, 45, "Algae", "SQRRRRRRRRHAHHA");
+
     private static List<Pokemon> gymOwnerPokemons = Arrays.asList(charmeleon, wartortle, bulbasaur, ivysaur, pikachu, squirtle);
 
 
@@ -17,9 +18,11 @@ public class PokemonGymOwner extends PokemonTrainer {
         super(name);
         this.town = town;
     }
+
     public List<Pokemon> getPokemons() {
         return gymOwnerPokemons;
     }
+
     public String getTown() {
         return town;
     }

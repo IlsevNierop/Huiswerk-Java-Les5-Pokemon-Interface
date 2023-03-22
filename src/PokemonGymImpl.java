@@ -3,6 +3,7 @@ import java.util.*;
 // Los in deze klasse alle foutmeldingen op door (abstracte) klassen met variabelen en methodes te maken en een interface met methodes (en soms een import).
 public class PokemonGymImpl implements PokemonGym {
 
+
     // Een methode gemaakt om alle pokemons (van player en trainer) in 1 lijst te doen, zodat bij throwfood random eten gekozen kan worden van alle pokemons (levend en dood):
     public List<Pokemon> allPokemonsInOneList(PokemonTrainer player1, PokemonGymOwner owner) {
         List<Pokemon> allPokemons = new ArrayList<>();
@@ -72,7 +73,7 @@ public class PokemonGymImpl implements PokemonGym {
         Scanner speler_A = new Scanner(System.in);
         boolean continueFighting = true;
 
-        // aangepast - origineel ging eerste beide kanten laten attacken, en dan pas checken of een van de twee pokemons dood was. Hiermee wordt na elke attack gecheckt of er een pokemon dood is.
+        // aangepast - origineel ging eerste beide kanten laten attacken, en dan pas checken of een van de twee pokemons dood was. Hieronder wordt na elke attack gecheckt of er een pokemon dood is.
         while (continueFighting) {
             if (pokemon.getHp() <= 0 || gymPokemon.getHp() <= 0) {
                 continueFighting = false;
@@ -92,28 +93,38 @@ public class PokemonGymImpl implements PokemonGym {
         if (pokemon.getHp() <= 0) {
             System.out.println(gymPokemon.getName() + " has defeated " + pokemon.getName() + ". \nYou will have to fight with another pokemon to continue.");
         } else if (gymPokemon.getHp() <= 0) {
+            // als de gymowner verliest wordt dit meerdere keren geprint, omdat hij constant tussen fightround methode en enterednewgymnextrounds gaat. Ik kan er niet achterkomen waar het aan ligt. Met verschillende if en while statements geprobeerd om het te omzeilen, maar het wil allemaal niet werken. Ik snap de loop niet.
             System.out.println(pokemon.getName() + " has defeated " + gymPokemon.getName() + ".\n" + owner.getName() + " will have to fight with another pokemon to continue.");
         }
 
-        // Eerst even nieuwe List maken met de nog levende pokemons, om daarna te checken of van player or owner de pokemons dood zijn.
-        List<Pokemon> gymOwnerPokemons = new ArrayList<>(alivePokemons(owner));
-        List<Pokemon> trainerPokemons = new ArrayList<>(alivePokemons(trainer));
+        // Eerst nieuwe List maken met de nog levende pokemons, om daarna te checken of van player or owner de pokemons dood zijn.
 
-
-        if (trainerPokemons.size() == 0) {
-            System.out.println("But.... all your pokemons are dead, you need to leave the premises now! Toodelooooo!");
-        } else if (gymOwnerPokemons.size() == 0) {
-            System.out.println("But... all the pokemons of " + owner.getName() + " are dead. \nYou won. You can pickup your trophee at the desk. \n" + owner.getName() + " will drink away his sorrows in the bar. \nYou can join and buy him a pint.");
-        } else {
-            System.out.println("Would you like to keep playing? Type yes or no.");
-            String keepPlaying = speler_A.nextLine();
-            if (keepPlaying.equals("yes")) {
-                enteredTheGymNextRounds(trainer, owner);
+        boolean continueFightingPokemons = true;
+        while (continueFightingPokemons) {
+            if (new ArrayList<>(alivePokemons(trainer)).size() == 0) {
+                System.out.println("But.... all your pokemons are dead, you need to leave the premises now! Toodelooooo!");
+                continueFightingPokemons = false;
+                break;
+            } else if (new ArrayList<>(alivePokemons(owner)).size() == 0) {
+                // als de gymowner verliest wordt dit meerdere keren geprint, omdat hij constant tussen fightround methode en enterednewgymnextrounds gaat. Ik kan er niet achterkomen waar het aan ligt. Met verschillende if en while statements geprobeerd om het te omzeilen, maar het wil allemaal niet werken. Ik snap de loop niet.
+                System.out.println("But... all the pokemons of " + owner.getName() + " are dead. \nYou won. You can pickup your trophee at the desk. \n" + owner.getName() + " will drink away his sorrows in the bar. \nYou can join and buy him a pint.");
+                continueFightingPokemons = false;
+                break;
+            } else if (new ArrayList<>(alivePokemons(trainer)).size() != 0 && new ArrayList<>(alivePokemons(owner)).size() != 0) {
+                System.out.println("Would you like to keep playing? Type yes or no.");
+                String keepPlaying = speler_A.nextLine();
+                if (keepPlaying.equals("yes")) {
+                    // hier komt ie steeds naar terug - vanaf fightround - skipt alle if voorwaarden (en evt toegevoegde while voorwaarden).
+                        enteredTheGymNextRounds(trainer, owner);
+                }
             } else {
                 System.out.println("Thank you for playing");
+                continueFightingPokemons = false;
+                break;
             }
         }
     }
+
 
 
     @Override
@@ -131,10 +142,8 @@ public class PokemonGymImpl implements PokemonGym {
     public Pokemon chooseGymPokemon(PokemonGymOwner gymOwner) {
         Random rand = new Random();
         List<Pokemon> gymOwnerPokemons = new ArrayList<>(alivePokemons(gymOwner));
-        System.out.println("lengte gymownerpokemons: " + gymOwnerPokemons.size());
 
         int randomNumber = rand.nextInt(gymOwnerPokemons.size());
-        System.out.println("Random nummer pokemon: " + randomNumber);
         return gymOwnerPokemons.get(randomNumber);
     }
 
@@ -338,7 +347,7 @@ public class PokemonGymImpl implements PokemonGym {
         List<Pokemon> allPokemons = allPokemonsInOneList(trainer, gym);
 
         System.out.println("Do you want to eat, attack or change your pokemon?");
-        System.out.println("Type e for eat a for attack or c for change");
+        System.out.println("Type e for eat, a for attack or c for change");
         String choice = speler_A.nextLine();
 
         if (choice.equalsIgnoreCase("e")) {

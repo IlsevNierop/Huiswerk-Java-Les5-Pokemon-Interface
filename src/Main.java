@@ -19,8 +19,8 @@ public class Main {
         String userA = speler_A.nextLine();
         PokemonTrainer player1 = new PokemonTrainer(userA);
         PokemonGymImpl pokemonGym = new PokemonGymImpl();
-        System.out.println("To start your game, we have given you 6 Pokemons use");
-        System.out.println("these are the Pokemons you get:");
+        System.out.println("To start your game, we have given you 6 Pokemons to use.");
+        System.out.println("These are the Pokemons you get:");
         pokemonGym.printPokemon(player1.getPokemons());
         System.out.println("Would you like to enter a gym looking for a fight?");
         System.out.println("Please enter yes or no");
