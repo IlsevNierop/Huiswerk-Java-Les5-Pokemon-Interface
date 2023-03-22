@@ -96,36 +96,37 @@ public class PokemonGymImpl implements PokemonGym {
             System.out.println(pokemon.getName() + " has defeated " + gymPokemon.getName() + ".\n" + owner.getName() + " will have to fight with another pokemon to continue.");
         }
 
-        if (checkIfNewFightRound(trainer, owner)){
+        if (checkIfNewFightRound(trainer, owner)) {
             enteredTheGymNextRounds(trainer, owner);
         }
 
     }
 
-    public boolean checkIfNewFightRound(PokemonTrainer trainer, PokemonGymOwner owner){
+    public boolean checkIfNewFightRound(PokemonTrainer trainer, PokemonGymOwner owner) {
         Scanner speler_A = new Scanner(System.in);
         boolean newRound = false;
-            if (new ArrayList<>(alivePokemons(trainer)).size() == 0) {
-                System.out.println("But.... all your pokemons are dead, you need to leave the premises now! Toodelooooo!");
-                newRound = false;
-            } else if (new ArrayList<>(alivePokemons(owner)).size() == 0) {
-                // als de gymowner verliest wordt dit meerdere keren geprint, omdat hij constant tussen fightround methode en enterednewgymnextrounds gaat. Ik kan er niet achterkomen waar het aan ligt. Met verschillende if en while statements geprobeerd om het te omzeilen, maar het wil allemaal niet werken. Ik snap de loop niet.
-                System.out.println("But... all the pokemons of " + owner.getName() + " are dead. \nYou won. You can pickup your trophee at the desk. \n" + owner.getName() + " will drink away his sorrows in the bar. \nYou can join and buy him a pint.");
-                newRound = false;
-            } else if (new ArrayList<>(alivePokemons(trainer)).size() != 0 && new ArrayList<>(alivePokemons(owner)).size() != 0) {
-                System.out.println("Would you like to keep playing? Type yes or no.");
-                String keepPlaying = speler_A.nextLine();
-                if (keepPlaying.equals("yes")) {
-                    newRound = true;
-                }
+        if (new ArrayList<>(alivePokemons(trainer)).size() == 0) {
+            System.out.println("But.... all your pokemons are dead, you need to leave the premises now! Toodelooooo!");
+            newRound = false;
+            System.exit(0);
+        } else if (new ArrayList<>(alivePokemons(owner)).size() == 0) {
+            // als de gymowner verliest wordt dit meerdere keren geprint, omdat hij constant tussen fightround methode en enterednewgymnextrounds gaat. Ik kan er niet achterkomen waar het aan ligt. Met verschillende if en while statements geprobeerd om het te omzeilen, maar het wil allemaal niet werken. Ik snap de loop niet.
+            System.out.println("But... all the pokemons of " + owner.getName() + " are dead. \nYou won. You can pickup your trophee at the desk. \n" + owner.getName() + " will drink away his sorrows in the bar. \nYou can join and buy him a pint.");
+            newRound = false;
+            System.exit(0);
+        } else if (new ArrayList<>(alivePokemons(trainer)).size() != 0 && new ArrayList<>(alivePokemons(owner)).size() != 0) {
+            System.out.println("Would you like to keep playing? Type yes or no.");
+            String keepPlaying = speler_A.nextLine();
+            if (keepPlaying.equals("yes")) {
+                newRound = true;
             } else {
                 System.out.println("Thank you for playing");
                 newRound = false;
+                System.exit(0);
             }
-
+        }
         return newRound;
     }
-
 
 
     @Override
@@ -220,7 +221,8 @@ public class PokemonGymImpl implements PokemonGym {
     }
 
     @Override
-    public void performAttackPlayer(Pokemon pokemon, Pokemon gymPokemon, String attack, List<Pokemon> allPokemons) {
+    public void performAttackPlayer(Pokemon pokemon, Pokemon gymPokemon, String
+            attack, List<Pokemon> allPokemons) {
         FirePokemon fire;
         ElectricPokemon electric;
         GrassPokemon grass;
