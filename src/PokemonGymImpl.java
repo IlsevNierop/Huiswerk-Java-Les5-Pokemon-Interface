@@ -70,7 +70,6 @@ public class PokemonGymImpl implements PokemonGym {
     @Override
     public void fightRound(PokemonTrainer trainer, PokemonGymOwner owner, Pokemon pokemon, Pokemon gymPokemon) {
         List<Pokemon> allPokemons = allPokemonsInOneList(trainer, owner);
-        Scanner speler_A = new Scanner(System.in);
         boolean continueFighting = true;
 
         // aangepast - origineel ging eerste beide kanten laten attacken, en dan pas checken of een van de twee pokemons dood was. Hieronder wordt na elke attack gecheckt of er een pokemon dood is.
@@ -97,32 +96,34 @@ public class PokemonGymImpl implements PokemonGym {
             System.out.println(pokemon.getName() + " has defeated " + gymPokemon.getName() + ".\n" + owner.getName() + " will have to fight with another pokemon to continue.");
         }
 
-        // Eerst nieuwe List maken met de nog levende pokemons, om daarna te checken of van player or owner de pokemons dood zijn.
+        if (checkIfNewFightRound(trainer, owner)){
+            enteredTheGymNextRounds(trainer, owner);
+        }
 
-        boolean continueFightingPokemons = true;
-        while (continueFightingPokemons) {
+    }
+
+    public boolean checkIfNewFightRound(PokemonTrainer trainer, PokemonGymOwner owner){
+        Scanner speler_A = new Scanner(System.in);
+        boolean newRound = false;
             if (new ArrayList<>(alivePokemons(trainer)).size() == 0) {
                 System.out.println("But.... all your pokemons are dead, you need to leave the premises now! Toodelooooo!");
-                continueFightingPokemons = false;
-                break;
+                newRound = false;
             } else if (new ArrayList<>(alivePokemons(owner)).size() == 0) {
                 // als de gymowner verliest wordt dit meerdere keren geprint, omdat hij constant tussen fightround methode en enterednewgymnextrounds gaat. Ik kan er niet achterkomen waar het aan ligt. Met verschillende if en while statements geprobeerd om het te omzeilen, maar het wil allemaal niet werken. Ik snap de loop niet.
                 System.out.println("But... all the pokemons of " + owner.getName() + " are dead. \nYou won. You can pickup your trophee at the desk. \n" + owner.getName() + " will drink away his sorrows in the bar. \nYou can join and buy him a pint.");
-                continueFightingPokemons = false;
-                break;
+                newRound = false;
             } else if (new ArrayList<>(alivePokemons(trainer)).size() != 0 && new ArrayList<>(alivePokemons(owner)).size() != 0) {
                 System.out.println("Would you like to keep playing? Type yes or no.");
                 String keepPlaying = speler_A.nextLine();
                 if (keepPlaying.equals("yes")) {
-                    // hier komt ie steeds naar terug - vanaf fightround - skipt alle if voorwaarden (en evt toegevoegde while voorwaarden).
-                        enteredTheGymNextRounds(trainer, owner);
+                    newRound = true;
                 }
             } else {
                 System.out.println("Thank you for playing");
-                continueFightingPokemons = false;
-                break;
+                newRound = false;
             }
-        }
+
+        return newRound;
     }
 
 
