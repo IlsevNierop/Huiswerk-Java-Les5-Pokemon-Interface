@@ -28,21 +28,12 @@ public interface PokemonGym {
     void attackOrChange(Pokemon pokemon, Pokemon gymPokemon, PokemonTrainer trainer, PokemonGymOwner gym);
 
     int randomFoodForAttack(List<Pokemon> pokemons);
+
     List<String> createListFoods(List<Pokemon> pokemons);
 
     void eatFood(Pokemon p);
 
-//    List<Pokemon> pokemonDied(Pokemon p, List<Pokemon> pokemons);
-
-
-
-
-
-
-
-
-
-
+    List<Pokemon> alivePokemons(PokemonTrainer ownerOrTrainer);
 
 
 }

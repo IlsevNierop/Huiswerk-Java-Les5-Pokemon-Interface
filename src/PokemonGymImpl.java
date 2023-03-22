@@ -3,8 +3,8 @@ import java.util.*;
 // Los in deze klasse alle foutmeldingen op door (abstracte) klassen met variabelen en methodes te maken en een interface met methodes (en soms een import).
 public class PokemonGymImpl implements PokemonGym {
 
-// Een methode gemaakt om alle pokemons (van player en trainer) in 1 lijst te doen, zodat bij throwfood random eten gekozen kan worden van ALLE pokemons (levend en dood):
-    public List<Pokemon> allPokemonsInOneList(PokemonTrainer player1, PokemonGymOwner owner){
+    // Een methode gemaakt om alle pokemons (van player en trainer) in 1 lijst te doen, zodat bij throwfood random eten gekozen kan worden van alle pokemons (levend en dood):
+    public List<Pokemon> allPokemonsInOneList(PokemonTrainer player1, PokemonGymOwner owner) {
         List<Pokemon> allPokemons = new ArrayList<>();
         for (int i = 0; i < player1.getPokemons().size(); i++) {
             allPokemons.add(player1.getPokemons().get(i));
@@ -15,6 +15,7 @@ public class PokemonGymImpl implements PokemonGym {
 
         return allPokemons;
     }
+
     @Override
     public void enteredTheGymFirstRound(PokemonTrainer player1) {
         PokemonGymOwner gymOwner = new PokemonGymOwner("Brock", "Pewter City");
@@ -33,7 +34,7 @@ public class PokemonGymImpl implements PokemonGym {
 
     }
 
-    //Extra methode aangemaakt, omdat ik andere print statements wil als de player, na de dood van een pokemon, ervoor kiest om door te gaan.
+    //Extra methode aangemaakt, omdat ik andere print statements wil (tov van entered the gym de eerste keer) als de player, na de dood van een pokemon, ervoor kiest om door te gaan.
     @Override
     public void enteredTheGymNextRounds(PokemonTrainer player1, PokemonGymOwner gymOwner) {
         System.out.println(Main.ANSI_RED + gymOwner.getName() + Main.ANSI_RESET + ": So you want to fight again??!! Let's go and see who wins this time!");
@@ -70,6 +71,8 @@ public class PokemonGymImpl implements PokemonGym {
         List<Pokemon> allPokemons = allPokemonsInOneList(trainer, owner);
         Scanner speler_A = new Scanner(System.in);
         boolean continueFighting = true;
+
+        // aangepast - origineel ging eerste beide kanten laten attacken, en dan pas checken of een van de twee pokemons dood was. Hiermee wordt na elke attack gecheckt of er een pokemon dood is.
         while (continueFighting) {
             if (pokemon.getHp() <= 0 || gymPokemon.getHp() <= 0) {
                 continueFighting = false;
@@ -92,19 +95,11 @@ public class PokemonGymImpl implements PokemonGym {
             System.out.println(pokemon.getName() + " has defeated " + gymPokemon.getName() + ".\n" + owner.getName() + " will have to fight with another pokemon to continue.");
         }
 
-        // pokemon met <0 hp is nog niet verwijderd van lijst - hier eerst lijst weer maken en dan checken
-        List<Pokemon> gymOwnerPokemons = new ArrayList<>();
-        for (Pokemon p : owner.getPokemons()) {
-            if (p.getHp() > 0) {
-                gymOwnerPokemons.add(p);
-            }
-        }
-        List<Pokemon> trainerPokemons = new ArrayList<>();
-        for (Pokemon p : trainer.getPokemons()) {
-            if (p.getHp() > 0) {
-                trainerPokemons.add(p);
-            }
-        }
+        // Eerst even nieuwe List maken met de nog levende pokemons, om daarna te checken of van player or owner de pokemons dood zijn.
+        List<Pokemon> gymOwnerPokemons = new ArrayList<>(alivePokemons(owner));
+        List<Pokemon> trainerPokemons = new ArrayList<>(alivePokemons(trainer));
+
+
         if (trainerPokemons.size() == 0) {
             System.out.println("But.... all your pokemons are dead, you need to leave the premises now! Toodelooooo!");
         } else if (gymOwnerPokemons.size() == 0) {
@@ -120,56 +115,55 @@ public class PokemonGymImpl implements PokemonGym {
         }
     }
 
-    //t
+
+    @Override
+    public List<Pokemon> alivePokemons(PokemonTrainer ownerOrTrainer) {
+        List<Pokemon> ownerOrTrainerPokemons = new ArrayList<>();
+        for (Pokemon p : ownerOrTrainer.getPokemons()) {
+            if (p.getHp() > 0) {
+                ownerOrTrainerPokemons.add(p);
+            }
+        }
+        return ownerOrTrainerPokemons;
+    }
 
     @Override
     public Pokemon chooseGymPokemon(PokemonGymOwner gymOwner) {
         Random rand = new Random();
-        List<Pokemon> gymOwnerPokemons = new ArrayList<>();
-        for (Pokemon p : gymOwner.getPokemons()) {
-            if (p.getHp() > 0) {
-                gymOwnerPokemons.add(p);
-            }
-        }
-        int amountOfPokemons = gymOwnerPokemons.size();
-        int randomNumber = rand.nextInt(amountOfPokemons);
-        return gymOwnerPokemons.get(randomNumber);
+        List<Pokemon> gymOwnerPokemons = new ArrayList<>(alivePokemons(gymOwner));
+        System.out.println("lengte gymownerpokemons: " + gymOwnerPokemons.size());
 
+        int randomNumber = rand.nextInt(gymOwnerPokemons.size());
+        System.out.println("Random nummer pokemon: " + randomNumber);
+        return gymOwnerPokemons.get(randomNumber);
     }
 
     @Override
     public Pokemon choosePokemon(PokemonTrainer trainer) {
         Scanner speler_A = new Scanner(System.in);
-        List<Pokemon> pokemons = new ArrayList<>();
-        for (Pokemon p : trainer.getPokemons()) {
-            if (p.getHp() > 0) {
-                pokemons.add(p);
-            }
-        }
+        List<Pokemon> pokemons = new ArrayList<>(alivePokemons(trainer));
+
         System.out.println("Please make your choice of pokemon to attack");
         for (Pokemon p : pokemons) {
             System.out.println(p.getName());
         }
         String pokemon = speler_A.nextLine();
+
+        // hiermee check ik of de persoon daadwerkelijk een levende pokemon kiest.
         boolean correctPokemonChosen = false;
         while (!correctPokemonChosen) {
-            int i = 0;
-            for (Pokemon p : pokemons) {
-                if (!p.getName().equalsIgnoreCase(pokemon)) {
-                    i++;
+            for (int i = 0; i < pokemons.size(); i++) {
+                if (pokemons.get(i).getName().equalsIgnoreCase(pokemon)) {
+                    correctPokemonChosen = true;
+                    break;
+                }
+                if (i == pokemons.size() - 1) {
+                    System.out.println("Either this pokemon doesn't exist, or this pokemon died. \nPlease choose another pokemon.");
+                    pokemon = speler_A.nextLine();
+                    continue;
                 }
             }
-            if (i == pokemons.size()) {
-                System.out.println("Either this pokemon doesn't exist, or this pokemon died. \nPlease choose another pokemon.");
-                pokemon = speler_A.nextLine();
-                continue;
-            } else {
-                correctPokemonChosen = true;
-                break;
-            }
-
         }
-
         return selectPokemon(pokemon, trainer);
 
     }
@@ -280,7 +274,8 @@ public class PokemonGymImpl implements PokemonGym {
         WaterPokemon water;
 
         int randomNumberForAttackOrEat = randomAttackByGymOwner(gymPokemon);
-        if (randomNumberForAttackOrEat == 5) {
+        if (randomNumberForAttackOrEat == (gymPokemon.getAttacks().size())) {
+            //eat food toegevoegd als optie ipv attack.
             eatFood(gymPokemon);
         } else {
 
@@ -354,12 +349,13 @@ public class PokemonGymImpl implements PokemonGym {
             performAttackPlayer(pokemon, gymPokemon, attack, allPokemons);
         } else {
             pokemon = choosePokemon(trainer);
+            System.out.println(Main.ANSI_GREEN + trainer.getName() + Main.ANSI_RESET + ": I'll choose you, " + pokemon.getName());
             attackOrChange(pokemon, gymPokemon, trainer, gym);
             fightRound(trainer, gym, pokemon, gymPokemon);
         }
     }
 
-
+    // Lijst van eten gemaakt, van alle pokemons (levend of dood), zodat bij een throw food attack - random eten wordt gegooid.
     @Override
     public List<String> createListFoods(List<Pokemon> allPokemons) {
         List<String> foods = new ArrayList<>();
@@ -370,6 +366,7 @@ public class PokemonGymImpl implements PokemonGym {
         return foods;
     }
 
+    //Random food gekozen van al het eten van alle pokemons - te gebruiken voor de throwfood attack.
     @Override
     public int randomFoodForAttack(List<Pokemon> allPokemons) {
         Random rand = new Random();
@@ -382,13 +379,5 @@ public class PokemonGymImpl implements PokemonGym {
         p.setHp(p.getHp() + 10);
         System.out.println(p.getName() + " is eating his favourite food: " + p.getFood() + " and gains new energy. \nHe gets a boost of 10 hp. \nHe now has " + p.getHp() + " hp.");
     }
-
-//    @Override
-//    public List<Pokemon> pokemonDied(Pokemon p, List<Pokemon> pokemons) {
-//        pokemons.remove(p);
-//
-//        return pokemons;
-//    }
-
 
 }
